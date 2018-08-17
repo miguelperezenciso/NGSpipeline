@@ -52,7 +52,7 @@ fastqdump=fasterq-dump
 ASPERA=~/.aspera
 
 ### Parameters
-MINCOV=5        # minimum depth required
+MINCOV=5        # minimum depth required"\n"
 MAXCOV=         # maximum depth, by default is (2 x mean_depth + 1)
 SNPQ=10         # min snp quality
 MAPQ=20         # min map quality
