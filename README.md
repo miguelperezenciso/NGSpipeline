@@ -27,7 +27,7 @@ A problem with simultaneous SNP calling across samples is to distinguish between
 Within the working directory, you should have an ASSEMBLY folder with reference genome in fasta format, BIN folder with executables, a DATA folder with fq reads, BAMFILES folder, a VARFILES and a FASTAFILES folders. This structure can be changed in the script.
 To compile f90 programs:
 
-`f95 -O4 fact-m.f90 ngs_theta.f90 -o ngs_theta`
+  `f95 -O4 fact-m.f90 ngs_theta.f90 -o ngs_theta`
 
 `f95 -O4 fas2vcf.f90 -o fas2vcf`
 
@@ -95,7 +95,9 @@ For the whole genome jointly:
 For each chromosome separately:
 
    `sh wflow_ngs -cvcf SRR1`
+   
    `# Once finished`
+   
    `sh wflow_ngs -cmerge SRR1`
 
 This option requires the additional script **wflow\_ngs\_vcf\_chr.sh**
