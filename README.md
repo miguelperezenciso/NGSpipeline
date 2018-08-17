@@ -52,13 +52,20 @@ fastqdump=fasterq-dump
 ASPERA=~/.aspera
 
 ### Parameters
-MINCOV=5        # minimum depth required"\n"
+MINCOV=5        # minimum depth required
+
 MAXCOV=         # maximum depth, by default is (2 x mean_depth + 1)
+
 SNPQ=10         # min snp quality
+
 MAPQ=20         # min map quality
+
 BASEQ=20        # min base quality
+
 NP=10           # no. of threads
+
 WINSIZE=100000  # window size used to comple plots (only for -pdf option)
+
 
 ### Running the pipeline
 
@@ -70,7 +77,7 @@ WINSIZE=100000  # window size used to comple plots (only for -pdf option)
 
    `sh wflow_ngs -sra2fq SRR_1 SRR_2 ... SRR_n`
 
-SRR_i are the SRR ids for a given sample, which are all merged in a single fq paired end file with names SRR1\_sra\_1.fastq and SRR1\_sra\_2.fastq. Reads are stored in DATA folder. 
+SRR_i are the SRR ids for a given sample, which are all merged in a single fq paired end file with names **SRR1\_sra\_1.fastq** and **SRR1\_sra\_2.fastq**. Reads are stored in DATA folder. 
 
 ### To align with bwa
 In the following, SRR1 represents the sample thta is being analyzed. To align with bwa and refine the alignment do
@@ -79,14 +86,9 @@ In the following, SRR1 represents the sample thta is being analyzed. To align wi
 
 Aligns with bwa, realigns around indels with GATK and remove duplicates with picard. It also computes a file with number of bases sequenced at a given depth. Produces files **SRR1.realigned.bam**, **SRR1.realigned.bam.bai** and **SRR1.realigned.depth** in directory BAMFILES/SRR1
 
-### make
-
-   `sh wflow_ngs -qual SRR1`
-
-
 ### To obtain and filter gvcf file (SNP calling)
 
-With the whole genome jointly:
+For the whole genome jointly:
 
    `sh wflow_ngs -vcf SRR1`
 
@@ -96,7 +98,7 @@ For each chromosome separately:
    `# Once finished`
    `sh wflow_ngs -cmerge SRR1`
 
-This option requires the additional script wflow\_ngs\_vcf\_chr.sh
+This option requires the additional script **wflow\_ngs\_vcf\_chr.sh**
 
 Produces file **SRR1.final.gvcf.gz** in folder VARFILES
 
