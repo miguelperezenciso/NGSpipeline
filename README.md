@@ -34,13 +34,21 @@ To compile f90 programs:
 Paths to all programs should be specified in the shell script, eg,
 
 bwa=bwa
+
 samtools=$DIRBIN/samtools
+
 GATK=$DIRBIN/GenomeAnalysisTK.jar
+
 picard=$DIRBIN/picard.jar
+
 bedtools=bedtools
+
 bcftools=$DIRBIN/bcftools
+
 bgzip=bgzip
+
 fastqdump=fasterq-dump
+
 ASPERA=~/.aspera
 
 ### Parameters
@@ -56,37 +64,37 @@ WINSIZE=100000  # window size used to comple plots (only for -pdf option)
 
 ### Indexing
 
-   `sh wflow_bwa_generic -index`
+   `sh wflow_ngs -index`
 
 ### To download reads
 
-   `sh wflow_bwa_generic -sra2fq SRR_1 SRR_2 ... SRR_n`
+   `sh wflow_ngs -sra2fq SRR_1 SRR_2 ... SRR_n`
 
 SRR_i are the SRR ids for a given sample, which are all merged in a single fq paired end file with names SRR1\_sra\_1.fastq and SRR1\_sra\_2.fastq. Reads are stored in DATA folder. 
 
 ### To align with bwa
 In the following, SRR1 represents the sample thta is being analyzed. To align with bwa and refine the alignment do
 
-   `sh wflow_bwa_generic -bwa SRR1`
+   `sh wflow_ngs -bwa SRR1`
 
 Aligns with bwa, realigns around indels with GATK and remove duplicates with picard. It also computes a file with number of bases sequenced at a given depth. Produces files **SRR1.realigned.bam**, **SRR1.realigned.bam.bai** and **SRR1.realigned.depth** in directory BAMFILES/SRR1
 
 ### make
 
-   `sh wflow_bwa_generic -qual SRR1`
+   `sh wflow_ngs -qual SRR1`
 
 
 ### To obtain and filter gvcf file (SNP calling)
 
 With the whole genome jointly:
 
-   `sh wflow_bwa_generic -vcf SRR1`
+   `sh wflow_ngs -vcf SRR1`
 
 For each chromosome separately:
 
-   `sh wflow_bwa_generic -cvcf SRR1`
+   `sh wflow_ngs -cvcf SRR1`
    `# Once finished`
-   `sh wflow_bwa_generic -cmerge SRR1`
+   `sh wflow_ngs -cmerge SRR1`
 
 This option requires the additional script wflow\_ngs\_vcf\_chr.sh
 
@@ -94,29 +102,31 @@ Produces file **SRR1.final.gvcf.gz** in folder VARFILES
 
 ### To get some stats and quality metrics
 
-   `sh wflow_bwa_generic -qual SRR1`
+   `sh wflow_ngs -qual SRR1`
 
 Produces a file **SRR1.stats**, stored in VARFILES folder, with total lengths sequenced, fixed positions (0/0), heteroz (0/1), fixed differences (1/1), and indels per chromosome.
 
-   `sh wflow_bwa_generic -pdf SRR1`
+   `sh wflow_ngs -pdf SRR1`
 
 Produces a text file **SRR1.wintheta** and plots (**SRR1.pdf**) with depths per chr per window of size WINSIZE togther with several rough estimates of variability as in [Esteve-Codina et al. (2013)](https://www.ncbi.nlm.nih.gov/pubmed/23497037). These plots can be mainly be used to inspect whether depth is uniform or detect some weird patterns in terms of variability, etc.
 
 ### To get a fasta file from gvcf
 
-   `sh wflow_bwa_generic -fasta SRR1`
+   `sh wflow_ngs -fasta SRR1`
 
 Produces **SRR1.fa.gz** file in FASTAFILES folder.
 
 ### To get a vcf file from multiple individual gvcf files
 First you need to produce an **uncompressed** fasta file for each sample using the command above.
 
-   `sh wflow_bwa_generic -fas2vcf FASTA_LIST OUTFILE`
+   `sh wflow_ngs -fas2vcf FASTA_LIST OUTFILE`
 
 Produces **OUTFILE.vcf.gz** file in FASTAFILES folder. File FASTA_LIST contains the name of the fasta file and sampe name for each sample, eg,
 
    `sample1.fa  sample1`
+   
    `sample2.fa  sample2`
+   
    `...`
 
 ## Citations
