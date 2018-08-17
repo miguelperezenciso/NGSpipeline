@@ -28,6 +28,7 @@ Within the working directory, you should have an ASSEMBLY folder with reference 
 To compile f90 programs:
 
 `f95 -O4 fact-m.f90 ngs_theta.f90 -o ngs_theta`
+
 `f95 -O4 fas2vcf.f90 -o fas2vcf`
 
 Paths to all programs should be specified in the shell script, eg,
