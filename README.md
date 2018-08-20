@@ -2,7 +2,7 @@
 Scripts to analyze NGS data and multiple individual coherent SNP calling
 ## NGS pipeline to infer variability
 
-A problem with simultaneous SNP calling across samples is to distinguish between missing positions and bases equal to the reference. Furthermore, if depth is very different, it is desirable to filter all positions by the same restrictions, say in depth. This NGS data pipeline was developed to merge vcf files from separate individuals by keeping control on homozygous regions as well. This is done by filtering the raw gvcf file such that the same restrictions on SNP, base, map qualities, minimum and maximum depth are applied to both SNPs and regions where the sample is equal to the reference genome. A second utility converts this gvcf file into a fasta file, with Ns where the sample was not sequenced with the restrictions ste by the user. This fasta file can be fed into programs such as NGasp to infer variability and other evolutionary parameters. Finally, a merged vcf for several samples can be generated back. In this process, individual SNP quality is lost but a new program will be developed that prints SNP depth and likelihood. INDELs are not considered. A few plots with depth and other statistics can also be generated that help in visualizing possible weird results.
+A problem with simultaneous SNP calling across samples is to distinguish between missing positions and bases equal to the reference. Furthermore, if depth is very different, it is desirable to filter all positions by the same restrictions, say in depth. This NGS data pipeline was developed to merge vcf files from separate individuals by keeping control on homozygous regions as well. This is done by filtering the raw gvcf file such that the same restrictions on SNP, base, map qualities, minimum and maximum depth are applied to both SNPs and regions where the sample is equal to the reference genome. A second utility converts this gvcf file into a fasta file, with N's where the sample was not sequenced with the restrictions set by the user. This fasta file can be fed into programs such as NGasp to infer variability and other evolutionary parameters. Finally, a merged vcf for several samples can be generated back. In this process, individual SNP quality is lost although we plan to develop a new program that prints SNP depth and likelihood in the merged vcf file. INDELs are not considered. A few plots with depth and other statistics can also be generated that help in visualizing possible weird results.
 
 ### Standard software required
  - ascp
@@ -29,7 +29,7 @@ To compile f90 programs:
 
   `f95 -O4 fact-m.f90 ngs_theta.f90 -o ngs_theta`
 
-`f95 -O4 fas2vcf.f90 -o fas2vcf`
+  `f95 -O4 fas2vcf.f90 -o fas2vcf`
 
 Paths to all programs should be specified in the shell script, eg,
 
