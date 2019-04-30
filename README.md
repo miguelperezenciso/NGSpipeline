@@ -33,7 +33,7 @@ To compile f90 programs:
 
 Paths to all programs should be specified in the shell script, eg,
 
-`bwa=bwa
+```bwa=bwa
 
 samtools=$DIRBIN/samtools
 
@@ -49,7 +49,7 @@ bgzip=bgzip
 
 fastqdump=fasterq-dump
 
-ASPERA=~/.aspera`
+ASPERA=~/.aspera```
 
 ### Parameters
 `MINCOV=5        # minimum depth required
