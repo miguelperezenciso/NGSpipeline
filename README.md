@@ -1,4 +1,4 @@
-##  NGSpipeline: NGS pipeline to infer variability
+##  NGSpipeline: NGS pipeline to infer variability and merge gvcf files
 Scripts to analyze NGS data and multiple individual coherent SNP calling
 #### Miguel Pérez-Enciso (miguel.perez@uab.es) and Jordi Leno-Colorado (jordi.leno@cragenomica.es)
 
@@ -13,7 +13,7 @@ in the homozygous blocks. The main options of the pipeline are therefore (SRR1 i
 * `sh wflow_ngs -fasta SRR1` (obtains fasta file from gvcf)
 * steps above are repeated for every sample
 *  `sh wflow_ngs -fas2vcf FASTA_LIST OUTFILE` 
-(obtains a merged vcf file where missing genotypes ./. are distinguished from 0/0')
+(obtains a merged vcf file where missing genotypes ./. are distinguished from 0/0)
 
 See below for details.
 
@@ -73,24 +73,24 @@ WINSIZE=100000  # window size used to comple plots (only for -pdf option)
 
 ### Running the pipeline
 
-### Indexing
+#### Indexing
 
    `sh wflow_ngs -index`
 
-### To download reads
+#### To download reads
 
    `sh wflow_ngs -sra2fq SRR_1 SRR_2 ... SRR_n`
 
 SRR_i are the SRR ids for a given sample, which are all merged in a single fq paired end file with names **SRR1\_sra\_1.fastq** and **SRR1\_sra\_2.fastq**. Reads are stored in DATA folder. 
 
-### To align with bwa
+#### To align with bwa
 In the following, SRR1 represents the sample thta is being analyzed. To align with bwa and refine the alignment do
 
    `sh wflow_ngs -bwa SRR1`
 
 Aligns with bwa, realigns around indels with GATK and remove duplicates with picard. It also computes a file with number of bases sequenced at a given depth. Produces files **SRR1.realigned.bam**, **SRR1.realigned.bam.bai** and **SRR1.realigned.depth** in directory BAMFILES/SRR1
 
-### To obtain and filter gvcf file (SNP calling)
+#### To obtain and filter gvcf file (SNP calling)
 
 For the whole genome jointly:
 
@@ -108,13 +108,13 @@ This option requires the additional script **wflow\_ngs\_vcf\_chr.sh**
 
 Produces file **SRR1.final.gvcf.gz** in folder VARFILES
 
-### To get a fasta file from gvcf
+#### To get a fasta file from gvcf
 
    `sh wflow_ngs -fasta SRR1`
 
 Produces **SRR1.fa.gz** file in FASTAFILES folder.
 
-### To get a vcf file from multiple individual gvcf files
+#### To get a vcf file from multiple individual gvcf files
 First you need to produce an **uncompressed** fasta file for each sample using the command above.
 
    `sh wflow_ngs -fas2vcf FASTA_LIST OUTFILE`
@@ -127,7 +127,7 @@ sample2.fa  sample2
 ...
 ```
 
-### To get some stats and quality metrics
+#### To get some stats and quality metrics
 
    `sh wflow_ngs -qual SRR1`
 
@@ -137,7 +137,7 @@ Produces a file **SRR1.stats**, stored in VARFILES folder, with total lengths se
 
 Produces a text file **SRR1.wintheta** and plots (**SRR1.pdf**) with depths per chr per window of size WINSIZE togther with several rough estimates of variability as in [Esteve-Codina et al. (2013)](https://www.ncbi.nlm.nih.gov/pubmed/23497037). These plots can be mainly be used to inspect whether depth is uniform or detect some weird patterns in terms of variability, etc.
 
-## Citations
+### Citations
 If you find these scripts useful, please cite:
 
 [Leno-Colorado J, Hudson NJ, Reverter A, Pérez-Enciso M. 2017, A Pathway-Centered Analysis of Pig Domestication and Breeding in Eurasia. G3 7(7):2171-2184](http://www.g3journal.org/content/7/7/2171.long)
