@@ -1,8 +1,15 @@
-# NGSpipeline
+##  NGSpipeline: NGS pipeline to infer variability
 Scripts to analyze NGS data and multiple individual coherent SNP calling
-## NGS pipeline to infer variability
+#### Miguel Pérez-Enciso (miguel.perez@uab.es) and Jordi Leno-Colorado (jordi.leno@cragenomica.es0)
 
-A problem with simultaneous SNP calling across samples is to distinguish between missing positions and bases equal to the reference. Furthermore, if depth is very different, it is desirable to filter all positions by the same restrictions, say in depth. This NGS data pipeline was developed to merge vcf files from separate individuals by keeping control on homozygous regions as well. This is done by filtering the raw gvcf file such that the same restrictions on SNP, base, map qualities, minimum and maximum depth are applied to both SNPs and regions where the sample is equal to the reference genome. A second utility converts this gvcf file into a fasta file, with N's where the sample was not sequenced with the restrictions set by the user. This fasta file can be fed into programs such as NGasp to infer variability and other evolutionary parameters. Finally, a merged vcf for several samples can be generated back. In this process, individual SNP quality is lost although we plan to develop a new program that prints SNP depth and likelihood in the merged vcf file. INDELs are not considered. A few plots with depth and other statistics can also be generated that help in visualizing possible weird results.
+A problem with simultaneous SNP calling across samples is to distinguish between missing positions and bases equal to the reference. Furthermore, if depth is very different, it is desirable to filter all positions by the same restrictions, say in depth. This NGS data pipeline was developed to merge vcf files from separate individuals by keeping control on homozygous regions as well. This is done by filtering the raw gvcf file such that the same restrictions on SNP, base, map qualities, minimum and maximum depth are applied to both SNPs and regions where the sample is equal to the reference genome. A second utility converts this gvcf file into a fasta file, with N's where the sample was not sequenced with the restrictions set by the user. Finally, a merged vcf for several samples can be generated back. In this process, individual SNP quality is lost although we plan to develop a new program that prints SNP depth and likelihood in the merged vcf file. INDELs are not considered. A few plots with depth and other statistics can also be generated that help in visualizing possible weird results.
+
+### Warnings and main usage
+Some program options used in this pipeline seem to be deprecated, ie, in GATK. The main use of this pipeline is to show
+how to merge individual gvcf files such that the same filters are applied to all samples. This is a bit tricky specially
+in the homozygous blocks. The main options of the pipeline are therefore
+
+* 
 
 ### Standard software required
  - ascp
@@ -84,11 +91,11 @@ For the whole genome jointly:
 
 For each chromosome separately:
 
-   `sh wflow_ngs -cvcf SRR1`
-   
-   `# Once finished`
-   
-   `sh wflow_ngs -cmerge SRR1`
+```
+    sh wflow_ngs -cvcf SRR1
+    # Once finished
+    sh wflow_ngs -cmerge SRR1
+```
 
 This option requires the additional script **wflow\_ngs\_vcf\_chr.sh**
 
