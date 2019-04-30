@@ -1,15 +1,21 @@
 ##  NGSpipeline: NGS pipeline to infer variability
 Scripts to analyze NGS data and multiple individual coherent SNP calling
-#### Miguel Pérez-Enciso (miguel.perez@uab.es) and Jordi Leno-Colorado (jordi.leno@cragenomica.es0)
+#### Miguel Pérez-Enciso (miguel.perez@uab.es) and Jordi Leno-Colorado (jordi.leno@cragenomica.es)
 
 A problem with simultaneous SNP calling across samples is to distinguish between missing positions and bases equal to the reference. Furthermore, if depth is very different, it is desirable to filter all positions by the same restrictions, say in depth. This NGS data pipeline was developed to merge vcf files from separate individuals by keeping control on homozygous regions as well. This is done by filtering the raw gvcf file such that the same restrictions on SNP, base, map qualities, minimum and maximum depth are applied to both SNPs and regions where the sample is equal to the reference genome. A second utility converts this gvcf file into a fasta file, with N's where the sample was not sequenced with the restrictions set by the user. Finally, a merged vcf for several samples can be generated back. In this process, individual SNP quality is lost although we plan to develop a new program that prints SNP depth and likelihood in the merged vcf file. INDELs are not considered. A few plots with depth and other statistics can also be generated that help in visualizing possible weird results.
 
 ### Warnings and main usage
 Some program options used in this pipeline seem to be deprecated, ie, in GATK. The main use of this pipeline is to show
 how to merge individual gvcf files such that the same filters are applied to all samples. This is a bit tricky specially
-in the homozygous blocks. The main options of the pipeline are therefore
+in the homozygous blocks. The main options of the pipeline are therefore (SRR1 is the sample prefix):
 
-* 
+* `sh wflow_ngs -vcf SRR1`  (obtains filtered gvcf file)
+* `sh wflow_ngs -fasta SRR1` (obtains fasta file from gvcf)
+* steps above are repeated for every sample
+*  `sh wflow_ngs -fas2vcf FASTA_LIST OUTFILE` 
+(obtains a merged vcf file where missing genotypes ./. are distinguished from 0/0')
+
+See below for details.
 
 ### Standard software required
  - ascp
@@ -34,9 +40,10 @@ in the homozygous blocks. The main options of the pipeline are therefore
 Within the working directory, you should have an ASSEMBLY folder with reference genome in fasta format, BIN folder with executables, a DATA folder with fq reads, BAMFILES folder, a VARFILES and a FASTAFILES folders. This structure can be changed in the script.
 To compile f90 programs:
 
-  `f95 -O4 fact-m.f90 ngs_theta.f90 -o ngs_theta`
-
-  `f95 -O4 fas2vcf.f90 -o fas2vcf`
+```
+f95 -O4 fact-m.f90 ngs_theta.f90 -o ngs_theta
+f95 -O4 fas2vcf.f90 -o fas2vcf
+```
 
 Paths to all programs should be specified in the shell script, eg,
 
@@ -92,24 +99,14 @@ For the whole genome jointly:
 For each chromosome separately:
 
 ```
-    sh wflow_ngs -cvcf SRR1
-    # Once finished
-    sh wflow_ngs -cmerge SRR1
+sh wflow_ngs -cvcf SRR1
+# Once finished
+sh wflow_ngs -cmerge SRR1
 ```
 
 This option requires the additional script **wflow\_ngs\_vcf\_chr.sh**
 
 Produces file **SRR1.final.gvcf.gz** in folder VARFILES
-
-### To get some stats and quality metrics
-
-   `sh wflow_ngs -qual SRR1`
-
-Produces a file **SRR1.stats**, stored in VARFILES folder, with total lengths sequenced, fixed positions (0/0), heteroz (0/1), fixed differences (1/1), and indels per chromosome.
-
-   `sh wflow_ngs -pdf SRR1`
-
-Produces a text file **SRR1.wintheta** and plots (**SRR1.pdf**) with depths per chr per window of size WINSIZE togther with several rough estimates of variability as in [Esteve-Codina et al. (2013)](https://www.ncbi.nlm.nih.gov/pubmed/23497037). These plots can be mainly be used to inspect whether depth is uniform or detect some weird patterns in terms of variability, etc.
 
 ### To get a fasta file from gvcf
 
@@ -122,13 +119,23 @@ First you need to produce an **uncompressed** fasta file for each sample using t
 
    `sh wflow_ngs -fas2vcf FASTA_LIST OUTFILE`
 
-Produces **OUTFILE.vcf.gz** file in FASTAFILES folder. File FASTA_LIST contains the name of the fasta file and sampe name for each sample, eg,
+Produces **OUTFILE.vcf.gz** file in FASTAFILES folder. File FASTA_LIST contains the name of the fasta file and sample name for each sample, eg,
 
-   `sample1.fa  sample1`
-   
-   `sample2.fa  sample2`
-   
-   `...`
+```
+sample1.fa  sample1
+sample2.fa  sample2
+...
+```
+
+### To get some stats and quality metrics
+
+   `sh wflow_ngs -qual SRR1`
+
+Produces a file **SRR1.stats**, stored in VARFILES folder, with total lengths sequenced, fixed positions (0/0), heteroz (0/1), fixed differences (1/1), and indels per chromosome.
+
+   `sh wflow_ngs -pdf SRR1`
+
+Produces a text file **SRR1.wintheta** and plots (**SRR1.pdf**) with depths per chr per window of size WINSIZE togther with several rough estimates of variability as in [Esteve-Codina et al. (2013)](https://www.ncbi.nlm.nih.gov/pubmed/23497037). These plots can be mainly be used to inspect whether depth is uniform or detect some weird patterns in terms of variability, etc.
 
 ## Citations
 If you find these scripts useful, please cite:
