@@ -33,39 +33,28 @@ To compile f90 programs:
 
 Paths to all programs should be specified in the shell script, eg,
 
-```bwa=bwa
-
+```
+bwa=bwa
 samtools=$DIRBIN/samtools
-
 GATK=$DIRBIN/GenomeAnalysisTK.jar
-
 picard=$DIRBIN/picard.jar
-
 bedtools=bedtools
-
 bcftools=$DIRBIN/bcftools
-
 bgzip=bgzip
-
 fastqdump=fasterq-dump
-
-ASPERA=~/.aspera```
+ASPERA=~/.aspera
+```
 
 ### Parameters
-`MINCOV=5        # minimum depth required
-
+```
+MINCOV=5        # minimum depth required
 MAXCOV=         # maximum depth, by default is (2 x mean_depth + 1)
-
 SNPQ=10         # min snp quality
-
 MAPQ=20         # min map quality
-
 BASEQ=20        # min base quality
-
 NP=10           # no. of threads
-
 WINSIZE=100000  # window size used to comple plots (only for -pdf option)
-`
+```
 
 
 ### Running the pipeline
