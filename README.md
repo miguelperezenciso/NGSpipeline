@@ -32,6 +32,7 @@ See below for details.
 ### Non standard software provided
  - joinConsecutivePos.pl
  - covXwin.pl
+ - gcvf2fas.f90
  - ngs_theta.f90 & fact-m.f90
  - plotNGS.R
  - fas2vcf.f90 
@@ -41,6 +42,7 @@ Within the working directory, you should have an ASSEMBLY folder with reference 
 To compile f90 programs:
 
 ```
+f95 -O4 gvcf2fas.f90 -o gvcf2fas
 f95 -O4 fact-m.f90 ngs_theta.f90 -o ngs_theta
 f95 -O4 fas2vcf.f90 -o fas2vcf
 ```
